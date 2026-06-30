@@ -554,12 +554,12 @@ function Lbl({children,color,style={}}){
 return<div style={{...cinzel,fontSize:9,letterSpacing:5,color:color||G.goldD,marginBottom:14,...style}}>{children}</div>;
 }
 function Div({style={}}){
-return<div style={{height:1,background:`linear-gradient(90deg,transparent,${G.goldP},transparent)`,…style}}/>;
+return<div style={{height:1,background:`linear-gradient(90deg,transparent,${G.goldP},transparent)`,...style}}/>;
 }
 
 function Pill({children,accent=”#d4af37”,style={}}){
 return<div style={{display:“inline-block”,padding:“6px 18px”,border:`1px solid ${accent}40`,borderRadius:30,
-…cinzel,fontSize:9,letterSpacing:3,color:accent,…style}}>{children}</div>;
+...cinzel,fontSize:9,letterSpacing:3,color:accent,...style}}>{children}</div>;
 }
 
 function StarBg(){
@@ -591,20 +591,20 @@ return(
 <div style={{position:“relative”,zIndex:1,maxWidth:760}}>
 <Pill style={{marginBottom:32}}>✦ PURPOSEFUL CULTIVATIONS · REMNANT PLATFORM</Pill>
 <div style={{...cinzel,fontSize:9,letterSpacing:6,color:G.goldD,marginBottom:24}}>MASTER 33 · ISAIAH 58:12</div>
-<h1 style={{…playfair,fontSize:“clamp(36px,7vw,80px)”,fontWeight:700,lineHeight:.95,color:”#fff”,letterSpacing:-2,marginBottom:20}}>
+<h1 style={{...playfair,fontSize:“clamp(36px,7vw,80px)”,fontWeight:700,lineHeight:.95,color:”#fff”,letterSpacing:-2,marginBottom:20}}>
 Your Legacy,<br/><span style={{background:“linear-gradient(135deg,#d4af37,#f0d060,#b8902e)”,WebkitBackgroundClip:“text”,WebkitTextFillColor:“transparent”}}>Encoded.</span><br/>Your Presence, Deployed.
 </h1>
-<p style={{…playfair,fontSize:“clamp(14px,2vw,18px)”,fontStyle:“italic”,color:G.goldD,marginBottom:16}}>
+<p style={{...playfair,fontSize:“clamp(14px,2vw,18px)”,fontStyle:“italic”,color:G.goldD,marginBottom:16}}>
 “Not a résumé. Not a portfolio. A Remnant Profile.”
 </p>
 <p style={{fontSize:“clamp(13px,1.8vw,16px)”,color:G.textD,lineHeight:1.8,maxWidth:540,margin:“0 auto 48px”}}>
 Enter your name and birthdate. Receive a cinematic, downloadable HTML page that declares who you ARE — faith-rooted, framework-aligned, and ready to deploy.
 </p>
 <div style={{display:“flex”,gap:14,justifyContent:“center”,flexWrap:“wrap”,marginBottom:56}}>
-<button onClick={onStart} style={{padding:“15px 36px”,background:“linear-gradient(135deg,#d4af37,#b8902e)”,border:“none”,borderRadius:8,…cinzel,fontSize:10,letterSpacing:3,color:”#0a0804”,fontWeight:700,cursor:“pointer”}}>
+<button onClick={onStart} style={{padding:“15px 36px”,background:“linear-gradient(135deg,#d4af37,#b8902e)”,border:“none”,borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:”#0a0804”,fontWeight:700,cursor:“pointer”}}>
 REVEAL YOUR BLUEPRINT
 </button>
-<button style={{padding:“15px 36px”,background:“transparent”,border:“1px solid rgba(255,255,255,.14)”,borderRadius:8,…cinzel,fontSize:10,letterSpacing:3,color:G.textD,cursor:“pointer”}}>
+<button style={{padding:“15px 36px”,background:“transparent”,border:“1px solid rgba(255,255,255,.14)”,borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:G.textD,cursor:“pointer”}}>
 SEE AN EXAMPLE
 </button>
 </div>
@@ -631,14 +631,14 @@ return(
 <div style={{padding:“96px 32px”,background:G.b2,borderTop:`1px solid rgba(255,255,255,.04)`,borderBottom:`1px solid rgba(255,255,255,.04)`}}>
 <div style={{maxWidth:900,margin:“0 auto”,textAlign:“center”}}>
 <Lbl style={{justifyContent:“center”,display:“flex”,marginBottom:12}}>HOW IT WORKS</Lbl>
-<h2 style={{…playfair,fontSize:“clamp(26px,4vw,40px)”,fontWeight:700,color:”#fff”,marginBottom:56}}>Three Steps. One Revelation.</h2>
+<h2 style={{...playfair,fontSize:“clamp(26px,4vw,40px)”,fontWeight:700,color:”#fff”,marginBottom:56}}>Three Steps. One Revelation.</h2>
 <div style={{display:“grid”,gridTemplateColumns:“repeat(auto-fit,minmax(240px,1fr))”,gap:24}}>
 {steps.map(s=>(
 <div key={s.n} style={{background:G.b3,border:`1px solid rgba(255,255,255,.06)`,borderRadius:16,padding:“32px 28px”,textAlign:“left”,position:“relative”,overflow:“hidden”}}>
-<div style={{position:“absolute”,top:16,right:20,…cinzel,fontSize:32,fontWeight:700,color:“rgba(212,175,55,.06)”,letterSpacing:-2}}>{s.n}</div>
+<div style={{position:“absolute”,top:16,right:20,...cinzel,fontSize:32,fontWeight:700,color:“rgba(212,175,55,.06)”,letterSpacing:-2}}>{s.n}</div>
 <div style={{fontSize:36,marginBottom:16}}>{s.icon}</div>
 <div style={{...cinzel,fontSize:9,letterSpacing:3,color:G.goldD,marginBottom:8}}>STEP {s.n}</div>
-<div style={{…playfair,fontSize:18,fontWeight:700,color:”#fff”,marginBottom:10}}>{s.title}</div>
+<div style={{...playfair,fontSize:18,fontWeight:700,color:”#fff”,marginBottom:10}}>{s.title}</div>
 <p style={{fontSize:13,color:G.textD,lineHeight:1.75}}>{s.desc}</p>
 </div>
 ))}
@@ -655,7 +655,7 @@ return(
 <div style={{maxWidth:1060,margin:“0 auto”}}>
 <div style={{textAlign:“center”,marginBottom:56}}>
 <Lbl style={{display:“flex”,justifyContent:“center”,marginBottom:12}}>PRICING</Lbl>
-<h2 style={{…playfair,fontSize:“clamp(26px,4vw,44px)”,fontWeight:700,color:”#fff”,marginBottom:12}}>Choose Your Tier</h2>
+<h2 style={{...playfair,fontSize:“clamp(26px,4vw,44px)”,fontWeight:700,color:”#fff”,marginBottom:12}}>Choose Your Tier</h2>
 <p style={{fontSize:15,color:G.textD,maxWidth:500,margin:“0 auto”}}>Every tier produces a downloadable HTML file — your digital identity, ready to deploy from day one.</p>
 </div>
 <div style={{display:“grid”,gridTemplateColumns:“repeat(auto-fit,minmax(220px,1fr))”,gap:20}}>
@@ -665,10 +665,10 @@ const isCov=id===“covenant”;
 return(
 <div key={id} style={{background:isCov?`linear-gradient(160deg,${G.b2},${G.b3})`:`${G.b2}`,border:`1px solid ${isCov?t.accent+"50":"rgba(255,255,255,.06)"}`,borderRadius:16,padding:“32px 24px”,display:“flex”,flexDirection:“column”,position:“relative”,overflow:“hidden”,transition:“transform .3s”}}>
 {isCov&&<div style={{position:“absolute”,top:0,left:0,right:0,height:2,background:`linear-gradient(90deg,transparent,${t.accent},transparent)`}}/>}
-{t.badge&&<div style={{position:“absolute”,top:14,right:14,…cinzel,fontSize:8,letterSpacing:3,color:t.accent,background:`${t.accent}18`,padding:“4px 10px”,borderRadius:20}}>{t.badge}</div>}
+{t.badge&&<div style={{position:“absolute”,top:14,right:14,...cinzel,fontSize:8,letterSpacing:3,color:t.accent,background:`${t.accent}18`,padding:“4px 10px”,borderRadius:20}}>{t.badge}</div>}
 <div style={{fontSize:32,marginBottom:16}}>{t.icon}</div>
 <div style={{...cinzel,fontSize:11,letterSpacing:4,color:t.accent,marginBottom:6}}>{t.name.toUpperCase()}</div>
-<div style={{…playfair,fontSize:clamp(28,5,36),fontWeight:700,color:”#fff”,marginBottom:4}}>{t.price}</div>
+<div style={{...playfair,fontSize:clamp(28,5,36),fontWeight:700,color:”#fff”,marginBottom:4}}>{t.price}</div>
 <div style={{fontSize:11,color:G.textDD,marginBottom:16,...cinzel,letterSpacing:2}}>{t.deliverable.toUpperCase()}</div>
 <p style={{fontSize:12,color:G.textD,lineHeight:1.7,marginBottom:20,minHeight:40}}>{t.tagline}</p>
 <Div style={{marginBottom:20}}/>
@@ -680,7 +680,7 @@ return(
 </li>
 ))}
 </ul>
-<button onClick={()=>onSelect(id)} style={{width:“100%”,padding:“13px”,background:isCov?`linear-gradient(135deg,${t.accent},#b8902e)`:“transparent”,border:`1px solid ${t.accent}50`,borderRadius:8,…cinzel,fontSize:9,letterSpacing:3,color:isCov?”#0a0804”:t.accent,fontWeight:700,cursor:“pointer”}}>
+<button onClick={()=>onSelect(id)} style={{width:“100%”,padding:“13px”,background:isCov?`linear-gradient(135deg,${t.accent},#b8902e)`:“transparent”,border:`1px solid ${t.accent}50`,borderRadius:8,...cinzel,fontSize:9,letterSpacing:3,color:isCov?”#0a0804”:t.accent,fontWeight:700,cursor:“pointer”}}>
 {t.cta.toUpperCase()}
 </button>
 </div>
@@ -710,9 +710,9 @@ const ready=name.trim().length>=2&&dob.length===10;
 
 const inp=(field,val,set,ph,type=“text”,rows=null)=>{
 const isTA=!!rows;
-const base={width:“100%”,background:foc===field?“rgba(212,175,55,.05)”:“rgba(255,255,255,.03)”,border:`1px solid ${foc===field?"rgba(212,175,55,.4)":"rgba(255,255,255,.08)"}`,borderRadius:8,padding:“14px 18px”,color:”#fff”,…playfair,fontSize:15,outline:“none”,transition:“all .3s”,boxSizing:“border-box”,resize:isTA?“vertical”:“none”};
+const base={width:“100%”,background:foc===field?“rgba(212,175,55,.05)”:“rgba(255,255,255,.03)”,border:`1px solid ${foc===field?"rgba(212,175,55,.4)":"rgba(255,255,255,.08)"}`,borderRadius:8,padding:“14px 18px”,color:”#fff”,...playfair,fontSize:15,outline:“none”,transition:“all .3s”,boxSizing:“border-box”,resize:isTA?“vertical”:“none”};
 if(isTA) return<textarea value={val} placeholder={ph} onChange={e=>set(e.target.value)} onFocus={()=>setFoc(field)} onBlur={()=>setFoc(null)} rows={rows} style={base}/>;
-return<input type={type} value={val} placeholder={ph} onChange={e=>set(e.target.value)} onFocus={()=>setFoc(field)} onBlur={()=>setFoc(null)} style={{…base,colorScheme:type===“date”?“dark”:“light”}}/>;
+return<input type={type} value={val} placeholder={ph} onChange={e=>set(e.target.value)} onFocus={()=>setFoc(field)} onBlur={()=>setFoc(null)} style={{...base,colorScheme:type===“date”?“dark”:“light”}}/>;
 };
 
 return(
@@ -724,7 +724,7 @@ return(
 <span style={{fontSize:24}}>{t.icon}</span>
 <div>
 <div style={{...cinzel,fontSize:9,letterSpacing:4,color:t.accent}}>{t.name.toUpperCase()} TIER</div>
-<div style={{…playfair,fontSize:15,fontWeight:700,color:”#fff”}}>{t.price} · {t.deliverable}</div>
+<div style={{...playfair,fontSize:15,fontWeight:700,color:”#fff”}}>{t.price} · {t.deliverable}</div>
 </div>
 </div>
 <button onClick={onClose} style={{background:“transparent”,border:“none”,color:G.textDD,fontSize:20,cursor:“pointer”,padding:4}}>✕</button>
@@ -761,10 +761,10 @@ return(
 {inp(“mission”,mission,setMission,“Describe your mission in one sentence…”,null,3)}
 </div>
 )}
-<button onClick={()=>ready&&onGenerate({name:name.trim(),dob,role,mission})} disabled={!ready} style={{padding:“16px”,background:ready?`linear-gradient(135deg,${t.accent},#b8902e)`:“rgba(255,255,255,.05)”,border:“none”,borderRadius:8,…cinzel,fontSize:10,letterSpacing:3,color:ready?”#0a0804”:“rgba(255,255,255,.2)”,fontWeight:700,cursor:ready?“pointer”:“not-allowed”,marginTop:4}}>
+<button onClick={()=>ready&&onGenerate({name:name.trim(),dob,role,mission})} disabled={!ready} style={{padding:“16px”,background:ready?`linear-gradient(135deg,${t.accent},#b8902e)`:“rgba(255,255,255,.05)”,border:“none”,borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:ready?”#0a0804”:“rgba(255,255,255,.2)”,fontWeight:700,cursor:ready?“pointer”:“not-allowed”,marginTop:4}}>
 GENERATE MY {tier.toUpperCase()} PROFILE
 </button>
-<div style={{textAlign:“center”,…cinzel,fontSize:8,letterSpacing:2,color:G.textDD}}>Your data is used only to generate your profile. We don’t store it.</div>
+<div style={{textAlign:“center”,...cinzel,fontSize:8,letterSpacing:2,color:G.textDD}}>Your data is used only to generate your profile. We don’t store it.</div>
 </div>
 </div>
 </div>
@@ -783,11 +783,11 @@ return(
 <div style={{position:“relative”,zIndex:1}}>
 <div style={{fontSize:64,marginBottom:24}}>{t.icon}</div>
 <div style={{width:64,height:64,margin:“0 auto 32px”,border:“2px solid rgba(212,175,55,.15)”,borderTop:`2px solid ${t.accent}`,borderRadius:“50%”,animation:“spin 1.2s linear infinite”}}/>
-<div style={{…playfair,fontSize:“clamp(18px,3vw,26px)”,fontWeight:700,color:”#fff”,marginBottom:12}}>
+<div style={{...playfair,fontSize:“clamp(18px,3vw,26px)”,fontWeight:700,color:”#fff”,marginBottom:12}}>
 Decoding {name}’s Blueprint
 </div>
 <Pill accent={t.accent}>{t.name.toUpperCase()} TIER · {t.deliverable}</Pill>
-<div style={{marginTop:24,…cinzel,fontSize:10,letterSpacing:3,color:G.goldD,animation:“pulse 1.8s ease-in-out infinite”}}>{phases[ph]}</div>
+<div style={{marginTop:24,...cinzel,fontSize:10,letterSpacing:3,color:G.goldD,animation:“pulse 1.8s ease-in-out infinite”}}>{phases[ph]}</div>
 <style>{`@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}`}</style>
 </div>
 </div>
@@ -807,14 +807,14 @@ return(
 </div>
 <div style={{display:“flex”,gap:10}}>
 {[“preview”,“code”].map(tb=>(
-<button key={tb} onClick={()=>setTab(tb)} style={{padding:“6px 16px”,background:tab===tb?“rgba(212,175,55,.12)”:“transparent”,border:`1px solid ${tab===tb?G.goldP:"rgba(255,255,255,.06)"}`,borderRadius:6,…cinzel,fontSize:8,letterSpacing:3,color:tab===tb?G.gold:G.textDD,cursor:“pointer”}}>
+<button key={tb} onClick={()=>setTab(tb)} style={{padding:“6px 16px”,background:tab===tb?“rgba(212,175,55,.12)”:“transparent”,border:`1px solid ${tab===tb?G.goldP:"rgba(255,255,255,.06)"}`,borderRadius:6,...cinzel,fontSize:8,letterSpacing:3,color:tab===tb?G.gold:G.textDD,cursor:“pointer”}}>
 {tb.toUpperCase()}
 </button>
 ))}
-<button onClick={onDownload} style={{padding:“6px 18px”,background:`linear-gradient(135deg,${t.accent},#b8902e)`,border:“none”,borderRadius:6,…cinzel,fontSize:8,letterSpacing:3,color:”#0a0804”,fontWeight:700,cursor:“pointer”}}>
+<button onClick={onDownload} style={{padding:“6px 18px”,background:`linear-gradient(135deg,${t.accent},#b8902e)`,border:“none”,borderRadius:6,...cinzel,fontSize:8,letterSpacing:3,color:”#0a0804”,fontWeight:700,cursor:“pointer”}}>
 ⬇ DOWNLOAD HTML
 </button>
-<button onClick={onReset} style={{padding:“6px 16px”,background:“transparent”,border:“1px solid rgba(255,255,255,.08)”,borderRadius:6,…cinzel,fontSize:8,letterSpacing:3,color:G.textDD,cursor:“pointer”}}>
+<button onClick={onReset} style={{padding:“6px 16px”,background:“transparent”,border:“1px solid rgba(255,255,255,.08)”,borderRadius:6,...cinzel,fontSize:8,letterSpacing:3,color:G.textDD,cursor:“pointer”}}>
 ✕ CLOSE
 </button>
 </div>
@@ -830,7 +830,7 @@ return(
 {/* Bottom bar */}
 <div style={{padding:“12px 24px”,background:G.b2,borderTop:“1px solid rgba(255,255,255,.04)”,display:“flex”,alignItems:“center”,justifyContent:“space-between”,flexShrink:0}}>
 <div style={{...cinzel,fontSize:8,letterSpacing:3,color:G.textDD}}>Your HTML profile is ready. Download, host, or share.</div>
-<div style={{…cinzel,fontSize:8,letterSpacing:3,color:“rgba(212,175,55,.35)”}}>PURPOSEFUL CULTIVATIONS · ISAIAH 58:12</div>
+<div style={{...cinzel,fontSize:8,letterSpacing:3,color:“rgba(212,175,55,.35)”}}>PURPOSEFUL CULTIVATIONS · ISAIAH 58:12</div>
 </div>
 </div>
 );
@@ -842,7 +842,7 @@ return(
 <div style={{...cinzel,fontSize:14,fontWeight:700,color:G.gold,marginBottom:8}}>33</div>
 <div style={{...cinzel,fontSize:10,letterSpacing:5,color:G.textDD,marginBottom:16}}>PURPOSEFUL CULTIVATIONS</div>
 <Div style={{maxWidth:200,margin:“0 auto 16px”}}/>
-<p style={{…playfair,fontSize:14,fontStyle:“italic”,color:G.goldD,marginBottom:8}}>“If it’s in His will, it’s in my way — because my way is His will.”</p>
+<p style={{...playfair,fontSize:14,fontStyle:“italic”,color:G.goldD,marginBottom:8}}>“If it’s in His will, it’s in my way — because my way is His will.”</p>
 <div style={{...cinzel,fontSize:8,letterSpacing:4,color:G.textDD}}>ISAIAH 58:12 · MASTER 33 · {new Date().getFullYear()}</div>
 </div>
 );
@@ -873,7 +873,6 @@ return(
 <div style={{minHeight:“100vh”,background:G.bg,fontFamily:”‘Lato’,sans-serif”}}>
 <style>{`${FONTS}*{box-sizing:border-box}input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.5);cursor:pointer}input::placeholder,textarea::placeholder{color:rgba(255,255,255,.22)}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(212,175,55,.2);border-radius:2px}`}</style>
 
-```
   {/* Fixed Nav */}
   {(view==="landing")&&(
     <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:100,height:60,padding:"0 32px",display:"flex",alignItems:"center",justifyContent:"space-between",background:"rgba(8,7,11,.92)",backdropFilter:"blur(14px)",borderBottom:"1px solid rgba(255,255,255,.05)"}}>
@@ -914,7 +913,6 @@ return(
     <PreviewScreen tier={tier} html={html} name={form?.name||""} onReset={reset} onDownload={()=>downloadHTML(html,form?.name||"profile",tier)}/>
   )}
 </div>
-```
 
 );
 }

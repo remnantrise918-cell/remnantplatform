@@ -70,12 +70,10 @@ Each `build*HTML` function returns a complete self-contained HTML document (with
 
 All styling is inline React style objects. Two shared font family objects (`cinzel`, `playfair`) are reused across components. The `G` constant holds the global color palette (dark background `#08070b`, gold accent `#d4af37`, purple accent `#c084fc` for Legacy tier). Each tier has its own `accent` color defined in `TIERS`.
 
-## Known Issues in the Source File
+## Syntax Notes
 
-Two classes of syntax problems exist in `remnant-platform.jsx`:
+The original source contained two classes of problems that have been fixed:
 
-1. **Unicode ellipsis `…` used instead of spread `...`** — appears on lines like `style={{…base,...}}`. Standard bundlers (Vite, webpack) will reject this. Replace `…` (U+2026) with `...` (three dots) throughout.
+1. **Unicode ellipsis spread operators** — `…cinzel` / `…playfair` / `…base` / `…style` patterns used U+2026 (`…`) instead of `...`. All style-object spreads now use three ASCII dots. String-literal ellipses (e.g., placeholder text) were intentionally left as-is.
 
-2. **Markdown code fences inside JSX** — lines 876 and 917 contain ` ``` ` backtick fences wrapping JSX content. This is invalid JSX and must be removed, leaving only the JSX markup between them.
-
-Fix both before running in any standard bundler.
+2. **Markdown code fences inside JSX** — the main `return` block in `RemnantPlatform` was wrapped in ` ``` ` backtick fences, which is invalid JSX. These have been removed.
