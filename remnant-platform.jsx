@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // ── FONTS ──────────────────────────────────────────────────────────────────────
 const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');`;
@@ -100,7 +100,7 @@ headers:{
 "anthropic-dangerous-direct-browser-access":"true",
 },
 body:JSON.stringify({
-model:"claude-sonnet-4-20250514",max_tokens:1000,
+model:"claude-sonnet-4-20250514",max_tokens:2000,
 system:`${SYS_BASE}\n\nSchema for ${tier.toUpperCase()} tier:\n${SCHEMAS[tier]}`,
 messages:[{role:"user",content:msg}]
 })
@@ -621,7 +621,7 @@ Enter your name and birthdate. Receive a cinematic, downloadable HTML page that 
 <button onClick={onStart} style={{padding:"15px 36px",background:"linear-gradient(135deg,#d4af37,#b8902e)",border:"none",borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:"#0a0804",fontWeight:700,cursor:"pointer"}}>
 REVEAL YOUR BLUEPRINT
 </button>
-<button style={{padding:"15px 36px",background:"transparent",border:"1px solid rgba(255,255,255,.14)",borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:G.textD,cursor:"pointer"}}>
+<button onClick={()=>document.getElementById("tiers")?.scrollIntoView({behavior:"smooth"})} style={{padding:"15px 36px",background:"transparent",border:"1px solid rgba(255,255,255,.14)",borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:G.textD,cursor:"pointer"}}>
 SEE AN EXAMPLE
 </button>
 </div>
