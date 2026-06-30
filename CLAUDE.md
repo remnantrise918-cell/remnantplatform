@@ -72,8 +72,19 @@ All styling is inline React style objects. Two shared font family objects (`cinz
 
 ## Syntax Notes
 
-The original source contained two classes of problems that have been fixed:
+The original source contained three classes of problems that have been fixed:
 
 1. **Unicode ellipsis spread operators** — `…cinzel` / `…playfair` / `…base` / `…style` patterns used U+2026 (`…`) instead of `...`. All style-object spreads now use three ASCII dots. String-literal ellipses (e.g., placeholder text) were intentionally left as-is.
 
 2. **Markdown code fences inside JSX** — the main `return` block in `RemnantPlatform` was wrapped in ` ``` ` backtick fences, which is invalid JSX. These have been removed.
+
+3. **Curly/smart quotes throughout** — the entire file used Unicode left/right double-quotation marks (U+201C `"` / U+201D `"`) and curly single quotes (U+2018/U+2019) as JS string delimiters instead of ASCII `"` and `'`. All have been replaced with ASCII equivalents.
+
+## API Key
+
+`fetchBlueprint` resolves the Anthropic key in priority order:
+1. `import.meta.env.VITE_ANTHROPIC_API_KEY` (Vite / any env-var host)
+2. `localStorage.getItem("remnant_api_key")` (persisted from a previous session)
+3. Key entered by the user in the `IntakeModal` API key field (saved to `localStorage`)
+
+The `IntakeModal` shows the API key field only when no env-var key is detected. The generate button stays disabled until a key longer than 20 characters is present.

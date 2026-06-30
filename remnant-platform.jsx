@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from “react”;
+import { useState, useEffect, useRef, useCallback } from "react";
 
 // ── FONTS ──────────────────────────────────────────────────────────────────────
 const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');`;
@@ -6,65 +6,69 @@ const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght
 // ── NUMEROLOGY + ASTROLOGY ─────────────────────────────────────────────────────
 function reduce(n) {
 while (n > 9 && ![11,22,33].includes(n))
-n = String(n).split(””).reduce((a,d)=>a+ +d, 0);
+n = String(n).split("").reduce((a,d)=>a+ +d, 0);
 return n;
 }
 function getLP(dob) {
-const [y,m,d] = dob.split(”-”).map(Number);
-return reduce(reduce(m)+reduce(d)+reduce(String(y).split(””).reduce((a,c)=>a+ +c,0)));
+const [y,m,d] = dob.split("-").map(Number);
+return reduce(reduce(m)+reduce(d)+reduce(String(y).split("").reduce((a,c)=>a+ +c,0)));
 }
 function getSign(dob) {
-const [,m,d] = dob.split(”-”).map(Number);
-const tbl=[[1,19,“Capricorn”],[2,18,“Aquarius”],[3,20,“Pisces”],[4,19,“Aries”],[5,20,“Taurus”],
-[6,20,“Gemini”],[7,22,“Cancer”],[8,22,“Leo”],[9,22,“Virgo”],[10,22,“Libra”],
-[11,21,“Scorpio”],[12,21,“Sagittarius”],[12,99,“Capricorn”]];
+const [,m,d] = dob.split("-").map(Number);
+const tbl=[[1,19,"Capricorn"],[2,18,"Aquarius"],[3,20,"Pisces"],[4,19,"Aries"],[5,20,"Taurus"],
+[6,20,"Gemini"],[7,22,"Cancer"],[8,22,"Leo"],[9,22,"Virgo"],[10,22,"Libra"],
+[11,21,"Scorpio"],[12,21,"Sagittarius"],[12,99,"Capricorn"]];
 for(const[sm,sd,s] of tbl) if(m<sm||(m===sm&&d<=sd)) return s;
-return “Capricorn”;
+return "Capricorn";
 }
-const ELEM={Aries:“Fire”,Leo:“Fire”,Sagittarius:“Fire”,Taurus:“Earth”,Virgo:“Earth”,Capricorn:“Earth”,
-Gemini:“Air”,Libra:“Air”,Aquarius:“Air”,Cancer:“Water”,Scorpio:“Water”,Pisces:“Water”};
-const EICO={Fire:“🔥”,Earth:“🌿”,Air:“🌬️”,Water:“💧”};
-const SSYM={Aries:“♈”,Taurus:“♉”,Gemini:“♊”,Cancer:“♋”,Leo:“♌”,Virgo:“♍”,
-Libra:“♎”,Scorpio:“♏”,Sagittarius:“♐”,Capricorn:“♑”,Aquarius:“♒”,Pisces:“♓”};
+const ELEM={Aries:"Fire",Leo:"Fire",Sagittarius:"Fire",Taurus:"Earth",Virgo:"Earth",Capricorn:"Earth",
+Gemini:"Air",Libra:"Air",Aquarius:"Air",Cancer:"Water",Scorpio:"Water",Pisces:"Water"};
+const EICO={Fire:"🔥",Earth:"🌿",Air:"🌬️",Water:"💧"};
+const SSYM={Aries:"♈",Taurus:"♉",Gemini:"♊",Cancer:"♋",Leo:"♌",Virgo:"♍",
+Libra:"♎",Scorpio:"♏",Sagittarius:"♐",Capricorn:"♑",Aquarius:"♒",Pisces:"♓"};
 const MASTER=[11,22,33];
 
 // ── TIERS ──────────────────────────────────────────────────────────────────────
 const TIERS = {
-seed:{id:“seed”,name:“Seed”,price:“Free”,icon:“🌱”,accent:”#78a56a”,
-tagline:“Your name. Your number. Your starting point.”,
-deliverable:“Digital Profile Card”,
+seed:{id:"seed",name:"Seed",price:"Free",icon:"🌱",accent:"#78a56a",
+tagline:"Your name. Your number. Your starting point.",
+deliverable:"Digital Profile Card",
 badge:null,
-features:[“Divine archetype reveal”,“Life path + sun sign decode”,“Core gift statement”,
-“Framework alignment”,“Standalone HTML card (download + share)”]},
-covenant:{id:“covenant”,name:“Covenant”,price:”$9”,icon:“⚡”,accent:”#d4af37”,
-tagline:“A presence that speaks before you do.”,
-deliverable:“Full Remnant Profile Page”,
-badge:“Most Popular”,
-features:[“Everything in Seed”,“Full cinematic profile page”,“Purpose declaration”,
-“Digital platform recommendation”,“Content pillar + voice tone”,
-“Ready-to-publish opening statement”,“Prophetic blessing”]},
-builder:{id:“builder”,name:“Builder”,price:”$29”,icon:“🔥”,accent:”#4a8bc4”,
-tagline:“A digital home worthy of your assignment.”,
-deliverable:“Personal Bio Site + Profile”,
+cta:"Start for free",
+features:["Divine archetype reveal","Life path + sun sign decode","Core gift statement",
+"Framework alignment","Standalone HTML card (download + share)"]},
+covenant:{id:"covenant",name:"Covenant",price:"$9",icon:"⚡",accent:"#d4af37",
+tagline:"A presence that speaks before you do.",
+deliverable:"Full Remnant Profile Page",
+badge:"Most Popular",
+cta:"Get Covenant",
+features:["Everything in Seed","Full cinematic profile page","Purpose declaration",
+"Digital platform recommendation","Content pillar + voice tone",
+"Ready-to-publish opening statement","Prophetic blessing"]},
+builder:{id:"builder",name:"Builder",price:"$29",icon:"🔥",accent:"#4a8bc4",
+tagline:"A digital home worthy of your assignment.",
+deliverable:"Personal Bio Site + Profile",
 badge:null,
-features:[“Everything in Covenant”,“Navigated one-page bio website”,“Three-chapter story arc”,
-“3 core gifts/offerings listed”,“90-day activation roadmap”,
-“Framework ecosystem placement”,“Platform strategy breakdown”]},
-legacy:{id:“legacy”,name:“Legacy”,price:”$67”,icon:“👑”,accent:”#c084fc”,
-tagline:“The full chronicle. The complete foundation.”,
-deliverable:“Legacy Chronicle + Full Suite”,
-badge:“Complete Package”,
-features:[“Everything in Builder”,“Multi-section Legacy Chronicle”,“Origin story + vision declaration”,
-“Three legacy pillars”,“Brand voice manifesto”,“Cinematic multi-section layout”,
-“Prophetic send-off page”,“Community & connection section”]},
+cta:"Get Builder",
+features:["Everything in Covenant","Navigated one-page bio website","Three-chapter story arc",
+"3 core gifts/offerings listed","90-day activation roadmap",
+"Framework ecosystem placement","Platform strategy breakdown"]},
+legacy:{id:"legacy",name:"Legacy",price:"$67",icon:"👑",accent:"#c084fc",
+tagline:"The full chronicle. The complete foundation.",
+deliverable:"Legacy Chronicle + Full Suite",
+badge:"Complete Package",
+cta:"Claim My Legacy",
+features:["Everything in Builder","Multi-section Legacy Chronicle","Origin story + vision declaration",
+"Three legacy pillars","Brand voice manifesto","Cinematic multi-section layout",
+"Prophetic send-off page","Community & connection section"]},
 };
 
 // ── SYSTEM PROMPTS ─────────────────────────────────────────────────────────────
-const SYS_BASE = `You are the Divine Blueprint Architect — strategic AI oracle of Purposeful Cultivations, founded by Marcus Wayne Evans Jr. (Master 33, Isaiah 58:12). You craft Remnant Profiles: digital identity documents that declare who someone IS, not merely what they’ve done. Language is prophetic-corporate — modern, professional, faith-rooted. Boardroom clarity meets sanctuary depth. No clichés.
+const SYS_BASE = `You are the Divine Blueprint Architect — strategic AI oracle of Purposeful Cultivations, founded by Marcus Wayne Evans Jr. (Master 33, Isaiah 58:12). You craft Remnant Profiles: digital identity documents that declare who someone IS, not merely what they've done. Language is prophetic-corporate — modern, professional, faith-rooted. Boardroom clarity meets sanctuary depth. No clichés.
 
 Active frameworks:
 • Purposeful Cultivations — AI, automation, nonprofit infrastructure
-• Martha’s Foundation — trauma-informed restoration for women + youth
+• Martha's Foundation — trauma-informed restoration for women + youth
 • Land Tenders / Buford Colony Initiative — land revival, workforce development
 • Bridging the GAP — civic translation, Isaiah 58:12 restoration
 • The Remnant Rise — prophetic chronicle, legacy preservation
@@ -78,24 +82,37 @@ builder:`{"archetype":"2-4 word divine archetype","archetypeSymbol":"single emoj
 legacy:`{"archetype":"2-4 word divine archetype","archetypeSymbol":"single emoji","headline":"bold 10-16 word declaration","tagline":"6-10 word personal motto","coreGift":"one sentence","originStatement":"3 sentences — deep origin, ancestral thread, what they carry","purposeStatement":"2-3 sentences","visionDeclaration":"2-3 sentences — the future they are building","storyArc":{"origin":"2 sentences","turning":"2 sentences","now":"2 sentences"},"legacyPillars":[{"title":"pillar name","description":"2 sentences"},{"title":"pillar name","description":"2 sentences"},{"title":"pillar name","description":"2 sentences"}],"gifts":["gift 1","gift 2","gift 3","gift 4"],"framework":"ONE primary framework","frameworkReason":"2 sentences","manifesto":"3-4 sentence brand voice manifesto — their non-negotiables, creed","digitalPlatform":"best platform","contentPillar":"5-7 word content theme","voiceTone":"3 adjectives","roadmap":["action 1","action 2","action 3","action 4"],"firstStatement":"3-4 sentence ready-to-publish opening","lifepathMeaning":"2 sentences","signMeaning":"2 sentences","blessing":"2-3 sentence prophetic send-off, deeply personal"}`
 };
 
-async function fetchBlueprint(tier, name, dob, role, mission, lp, sign, elem) {
+function getApiKey(){
+try{const k=import.meta?.env?.VITE_ANTHROPIC_API_KEY;if(k)return k;}catch{}
+return localStorage.getItem("remnant_api_key")||"";
+}
+
+async function fetchBlueprint(tier, name, dob, role, mission, lp, sign, elem, apiKey) {
+const key=apiKey||getApiKey();
 const isMaster = MASTER.includes(lp);
-const msg = `Name: ${name}\nBirthdate: ${dob}\nLife Path: ${lp}${isMaster?" (Master Number)":""}\nSun Sign: ${sign} ${SSYM[sign]||""}\nElement: ${elem}${role?`\nRole: ${role}`:""}${mission?`\nMission: “${mission}”`:""}`;
-const res = await fetch(“https://api.anthropic.com/v1/messages”,{
-method:“POST”,headers:{“Content-Type”:“application/json”},
+const msg = `Name: ${name}\nBirthdate: ${dob}\nLife Path: ${lp}${isMaster?" (Master Number)":""}\nSun Sign: ${sign} ${SSYM[sign]||""}\nElement: ${elem}${role?`\nRole: ${role}`:""}${mission?`\nMission: "${mission}"`:""}`;
+const res = await fetch("https://api.anthropic.com/v1/messages",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"x-api-key":key,
+"anthropic-version":"2023-06-01",
+"anthropic-dangerous-direct-browser-access":"true",
+},
 body:JSON.stringify({
-model:“claude-sonnet-4-20250514”,max_tokens:1000,
+model:"claude-sonnet-4-20250514",max_tokens:1000,
 system:`${SYS_BASE}\n\nSchema for ${tier.toUpperCase()} tier:\n${SCHEMAS[tier]}`,
-messages:[{role:“user”,content:msg}]
+messages:[{role:"user",content:msg}]
 })
 });
+if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`API error ${res.status}`);}
 const data = await res.json();
-const raw = data.content?.map(b=>b.text||””).join(””).trim();
-return JSON.parse(raw.replace(/`json|`/g,””).trim());
+const raw = data.content?.map(b=>b.text||"").join("").trim();
+return JSON.parse(raw.replace(/`json|`/g,"").trim());
 }
 
 // ── HTML BUILDERS ──────────────────────────────────────────────────────────────
-const NOW = ()=>new Date().toLocaleDateString(“en-US”,{year:“numeric”,month:“long”,day:“numeric”});
+const NOW = ()=>new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
 const STAT=(lp,sign,elem)=>`
 
   <div class="stat"><div class="sl">LIFE PATH</div><div class="sv">${lp}</div>${MASTER.includes(lp)?'<div class="sm">MASTER</div>':''}</div>
@@ -526,29 +543,29 @@ ${role?`<div class="role">${role.toUpperCase()}</div>`:""}
 
 function makeHTML(tier,d,name,dob,role,lp,sign,elem){
 switch(tier){
-case”seed”:    return buildSeedHTML(d,name,dob,lp,sign,elem);
-case”covenant”:return buildCovenantHTML(d,name,role,lp,sign,elem);
-case”builder”: return buildBuilderHTML(d,name,role,lp,sign,elem);
-case”legacy”:  return buildLegacyHTML(d,name,role,lp,sign,elem);
+case"seed":    return buildSeedHTML(d,name,dob,lp,sign,elem);
+case"covenant":return buildCovenantHTML(d,name,role,lp,sign,elem);
+case"builder": return buildBuilderHTML(d,name,role,lp,sign,elem);
+case"legacy":  return buildLegacyHTML(d,name,role,lp,sign,elem);
 default:       return buildSeedHTML(d,name,dob,lp,sign,elem);
 }
 }
 
 function downloadHTML(html,name,tier){
-const a=document.createElement(“a”);
-a.href=URL.createObjectURL(new Blob([html],{type:“text/html”}));
+const a=document.createElement("a");
+a.href=URL.createObjectURL(new Blob([html],{type:"text/html"}));
 a.download=`${name.replace(/\s+/g,"-").toLowerCase()}-${tier}-remnant-profile.html`;
 a.click();
 }
 
 // ── PLATFORM UI ────────────────────────────────────────────────────────────────
 const G={
-bg:”#08070b”,b2:”#0c0a10”,b3:”#100e15”,
-gold:”#d4af37”,goldD:“rgba(212,175,55,0.65)”,goldP:“rgba(212,175,55,0.15)”,
-text:“rgba(255,255,255,0.85)”,textD:“rgba(255,255,255,0.45)”,textDD:“rgba(255,255,255,0.22)”,
+bg:"#08070b",b2:"#0c0a10",b3:"#100e15",
+gold:"#d4af37",goldD:"rgba(212,175,55,0.65)",goldP:"rgba(212,175,55,0.15)",
+text:"rgba(255,255,255,0.85)",textD:"rgba(255,255,255,0.45)",textDD:"rgba(255,255,255,0.22)",
 };
-const cinzel={fontFamily:”‘Cinzel’,serif”};
-const playfair={fontFamily:”‘Playfair Display’,serif”};
+const cinzel={fontFamily:"'Cinzel',serif"};
+const playfair={fontFamily:"'Playfair Display',serif"};
 
 function Lbl({children,color,style={}}){
 return<div style={{...cinzel,fontSize:9,letterSpacing:5,color:color||G.goldD,marginBottom:14,...style}}>{children}</div>;
@@ -557,8 +574,8 @@ function Div({style={}}){
 return<div style={{height:1,background:`linear-gradient(90deg,transparent,${G.goldP},transparent)`,...style}}/>;
 }
 
-function Pill({children,accent=”#d4af37”,style={}}){
-return<div style={{display:“inline-block”,padding:“6px 18px”,border:`1px solid ${accent}40`,borderRadius:30,
+function Pill({children,accent="#d4af37",style={}}){
+return<div style={{display:"inline-block",padding:"6px 18px",border:`1px solid ${accent}40`,borderRadius:30,
 ...cinzel,fontSize:9,letterSpacing:3,color:accent,...style}}>{children}</div>;
 }
 
@@ -566,7 +583,7 @@ function StarBg(){
 const c=useRef();
 useEffect(()=>{
 const cv=c.current;if(!cv)return;
-const ctx=cv.getContext(“2d”);
+const ctx=cv.getContext("2d");
 cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;
 const stars=Array.from({length:90},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.2+.2,a:Math.random(),s:Math.random()*.006+.003}));
 let f;
@@ -578,39 +595,39 @@ f=requestAnimationFrame(draw);
 }
 draw();return()=>cancelAnimationFrame(f);
 },[]);
-return<canvas ref={c} style={{position:“absolute”,inset:0,width:“100%”,height:“100%”,pointerEvents:“none”}}/>;
+return<canvas ref={c} style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none"}}/>;
 }
 
 // Landing sections
 function Hero({onStart}){
 return(
-<div style={{position:“relative”,minHeight:“100vh”,display:“flex”,flexDirection:“column”,alignItems:“center”,justifyContent:“center”,padding:“120px 32px 80px”,textAlign:“center”,overflow:“hidden”}}>
+<div style={{position:"relative",minHeight:"100vh",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"120px 32px 80px",textAlign:"center",overflow:"hidden"}}>
 <StarBg/>
-<div style={{position:“absolute”,inset:0,background:“radial-gradient(ellipse 70% 50% at 50% 0%,rgba(212,175,55,.07),transparent 55%)”}}/>
-<div style={{position:“absolute”,inset:0,background:“radial-gradient(ellipse 45% 45% at 80% 80%,rgba(192,132,252,.05),transparent 60%)”}}/>
-<div style={{position:“relative”,zIndex:1,maxWidth:760}}>
+<div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 70% 50% at 50% 0%,rgba(212,175,55,.07),transparent 55%)"}}/>
+<div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 45% 45% at 80% 80%,rgba(192,132,252,.05),transparent 60%)"}}/>
+<div style={{position:"relative",zIndex:1,maxWidth:760}}>
 <Pill style={{marginBottom:32}}>✦ PURPOSEFUL CULTIVATIONS · REMNANT PLATFORM</Pill>
 <div style={{...cinzel,fontSize:9,letterSpacing:6,color:G.goldD,marginBottom:24}}>MASTER 33 · ISAIAH 58:12</div>
-<h1 style={{...playfair,fontSize:“clamp(36px,7vw,80px)”,fontWeight:700,lineHeight:.95,color:”#fff”,letterSpacing:-2,marginBottom:20}}>
-Your Legacy,<br/><span style={{background:“linear-gradient(135deg,#d4af37,#f0d060,#b8902e)”,WebkitBackgroundClip:“text”,WebkitTextFillColor:“transparent”}}>Encoded.</span><br/>Your Presence, Deployed.
+<h1 style={{...playfair,fontSize:"clamp(36px,7vw,80px)",fontWeight:700,lineHeight:.95,color:"#fff",letterSpacing:-2,marginBottom:20}}>
+Your Legacy,<br/><span style={{background:"linear-gradient(135deg,#d4af37,#f0d060,#b8902e)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Encoded.</span><br/>Your Presence, Deployed.
 </h1>
-<p style={{...playfair,fontSize:“clamp(14px,2vw,18px)”,fontStyle:“italic”,color:G.goldD,marginBottom:16}}>
-“Not a résumé. Not a portfolio. A Remnant Profile.”
+<p style={{...playfair,fontSize:"clamp(14px,2vw,18px)",fontStyle:"italic",color:G.goldD,marginBottom:16}}>
+"Not a résumé. Not a portfolio. A Remnant Profile."
 </p>
-<p style={{fontSize:“clamp(13px,1.8vw,16px)”,color:G.textD,lineHeight:1.8,maxWidth:540,margin:“0 auto 48px”}}>
+<p style={{fontSize:"clamp(13px,1.8vw,16px)",color:G.textD,lineHeight:1.8,maxWidth:540,margin:"0 auto 48px"}}>
 Enter your name and birthdate. Receive a cinematic, downloadable HTML page that declares who you ARE — faith-rooted, framework-aligned, and ready to deploy.
 </p>
-<div style={{display:“flex”,gap:14,justifyContent:“center”,flexWrap:“wrap”,marginBottom:56}}>
-<button onClick={onStart} style={{padding:“15px 36px”,background:“linear-gradient(135deg,#d4af37,#b8902e)”,border:“none”,borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:”#0a0804”,fontWeight:700,cursor:“pointer”}}>
+<div style={{display:"flex",gap:14,justifyContent:"center",flexWrap:"wrap",marginBottom:56}}>
+<button onClick={onStart} style={{padding:"15px 36px",background:"linear-gradient(135deg,#d4af37,#b8902e)",border:"none",borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:"#0a0804",fontWeight:700,cursor:"pointer"}}>
 REVEAL YOUR BLUEPRINT
 </button>
-<button style={{padding:“15px 36px”,background:“transparent”,border:“1px solid rgba(255,255,255,.14)”,borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:G.textD,cursor:“pointer”}}>
+<button style={{padding:"15px 36px",background:"transparent",border:"1px solid rgba(255,255,255,.14)",borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:G.textD,cursor:"pointer"}}>
 SEE AN EXAMPLE
 </button>
 </div>
-<div style={{display:“flex”,gap:36,justifyContent:“center”,flexWrap:“wrap”}}>
-{[[“4 Tiers”,“Free to $67”],[“6 Frameworks”,“Strategic alignment”],[“HTML Download”,“Host anywhere”]].map(([a,b])=>(
-<div key={a} style={{textAlign:“center”}}>
+<div style={{display:"flex",gap:36,justifyContent:"center",flexWrap:"wrap"}}>
+{[["4 Tiers","Free to $67"],["6 Frameworks","Strategic alignment"],["HTML Download","Host anywhere"]].map(([a,b])=>(
+<div key={a} style={{textAlign:"center"}}>
 <div style={{...playfair,fontSize:22,fontWeight:700,color:G.gold}}>{a}</div>
 <div style={{fontSize:11,color:G.textDD,...cinzel,letterSpacing:2}}>{b}</div>
 </div>
@@ -623,22 +640,22 @@ SEE AN EXAMPLE
 
 function HowItWorks(){
 const steps=[
-{n:“01”,icon:“✍️”,title:“Enter Your Details”,desc:“Name, date of birth, and an optional role or mission statement. That’s all we need.”},
-{n:“02”,icon:“🔮”,title:“Select Your Tier”,desc:“From a free Profile Card to a full Legacy Chronicle — choose the depth your assignment requires.”},
-{n:“03”,icon:“⚡”,title:“Receive Your Blueprint”,desc:“Download a fully designed HTML page. Host it, share it, print it. It’s yours forever.”},
+{n:"01",icon:"✍️",title:"Enter Your Details",desc:"Name, date of birth, and an optional role or mission statement. That's all we need."},
+{n:"02",icon:"🔮",title:"Select Your Tier",desc:"From a free Profile Card to a full Legacy Chronicle — choose the depth your assignment requires."},
+{n:"03",icon:"⚡",title:"Receive Your Blueprint",desc:"Download a fully designed HTML page. Host it, share it, print it. It's yours forever."},
 ];
 return(
-<div style={{padding:“96px 32px”,background:G.b2,borderTop:`1px solid rgba(255,255,255,.04)`,borderBottom:`1px solid rgba(255,255,255,.04)`}}>
-<div style={{maxWidth:900,margin:“0 auto”,textAlign:“center”}}>
-<Lbl style={{justifyContent:“center”,display:“flex”,marginBottom:12}}>HOW IT WORKS</Lbl>
-<h2 style={{...playfair,fontSize:“clamp(26px,4vw,40px)”,fontWeight:700,color:”#fff”,marginBottom:56}}>Three Steps. One Revelation.</h2>
-<div style={{display:“grid”,gridTemplateColumns:“repeat(auto-fit,minmax(240px,1fr))”,gap:24}}>
+<div style={{padding:"96px 32px",background:G.b2,borderTop:`1px solid rgba(255,255,255,.04)`,borderBottom:`1px solid rgba(255,255,255,.04)`}}>
+<div style={{maxWidth:900,margin:"0 auto",textAlign:"center"}}>
+<Lbl style={{justifyContent:"center",display:"flex",marginBottom:12}}>HOW IT WORKS</Lbl>
+<h2 style={{...playfair,fontSize:"clamp(26px,4vw,40px)",fontWeight:700,color:"#fff",marginBottom:56}}>Three Steps. One Revelation.</h2>
+<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",gap:24}}>
 {steps.map(s=>(
-<div key={s.n} style={{background:G.b3,border:`1px solid rgba(255,255,255,.06)`,borderRadius:16,padding:“32px 28px”,textAlign:“left”,position:“relative”,overflow:“hidden”}}>
-<div style={{position:“absolute”,top:16,right:20,...cinzel,fontSize:32,fontWeight:700,color:“rgba(212,175,55,.06)”,letterSpacing:-2}}>{s.n}</div>
+<div key={s.n} style={{background:G.b3,border:`1px solid rgba(255,255,255,.06)`,borderRadius:16,padding:"32px 28px",textAlign:"left",position:"relative",overflow:"hidden"}}>
+<div style={{position:"absolute",top:16,right:20,...cinzel,fontSize:32,fontWeight:700,color:"rgba(212,175,55,.06)",letterSpacing:-2}}>{s.n}</div>
 <div style={{fontSize:36,marginBottom:16}}>{s.icon}</div>
 <div style={{...cinzel,fontSize:9,letterSpacing:3,color:G.goldD,marginBottom:8}}>STEP {s.n}</div>
-<div style={{...playfair,fontSize:18,fontWeight:700,color:”#fff”,marginBottom:10}}>{s.title}</div>
+<div style={{...playfair,fontSize:18,fontWeight:700,color:"#fff",marginBottom:10}}>{s.title}</div>
 <p style={{fontSize:13,color:G.textD,lineHeight:1.75}}>{s.desc}</p>
 </div>
 ))}
@@ -649,38 +666,38 @@ return(
 }
 
 function TierCards({onSelect}){
-const order=[“seed”,“covenant”,“builder”,“legacy”];
+const order=["seed","covenant","builder","legacy"];
 return(
-<div style={{padding:“96px 32px”}}>
-<div style={{maxWidth:1060,margin:“0 auto”}}>
-<div style={{textAlign:“center”,marginBottom:56}}>
-<Lbl style={{display:“flex”,justifyContent:“center”,marginBottom:12}}>PRICING</Lbl>
-<h2 style={{...playfair,fontSize:“clamp(26px,4vw,44px)”,fontWeight:700,color:”#fff”,marginBottom:12}}>Choose Your Tier</h2>
-<p style={{fontSize:15,color:G.textD,maxWidth:500,margin:“0 auto”}}>Every tier produces a downloadable HTML file — your digital identity, ready to deploy from day one.</p>
+<div style={{padding:"96px 32px"}}>
+<div style={{maxWidth:1060,margin:"0 auto"}}>
+<div style={{textAlign:"center",marginBottom:56}}>
+<Lbl style={{display:"flex",justifyContent:"center",marginBottom:12}}>PRICING</Lbl>
+<h2 style={{...playfair,fontSize:"clamp(26px,4vw,44px)",fontWeight:700,color:"#fff",marginBottom:12}}>Choose Your Tier</h2>
+<p style={{fontSize:15,color:G.textD,maxWidth:500,margin:"0 auto"}}>Every tier produces a downloadable HTML file — your digital identity, ready to deploy from day one.</p>
 </div>
-<div style={{display:“grid”,gridTemplateColumns:“repeat(auto-fit,minmax(220px,1fr))”,gap:20}}>
+<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:20}}>
 {order.map(id=>{
 const t=TIERS[id];
-const isCov=id===“covenant”;
+const isCov=id==="covenant";
 return(
-<div key={id} style={{background:isCov?`linear-gradient(160deg,${G.b2},${G.b3})`:`${G.b2}`,border:`1px solid ${isCov?t.accent+"50":"rgba(255,255,255,.06)"}`,borderRadius:16,padding:“32px 24px”,display:“flex”,flexDirection:“column”,position:“relative”,overflow:“hidden”,transition:“transform .3s”}}>
-{isCov&&<div style={{position:“absolute”,top:0,left:0,right:0,height:2,background:`linear-gradient(90deg,transparent,${t.accent},transparent)`}}/>}
-{t.badge&&<div style={{position:“absolute”,top:14,right:14,...cinzel,fontSize:8,letterSpacing:3,color:t.accent,background:`${t.accent}18`,padding:“4px 10px”,borderRadius:20}}>{t.badge}</div>}
+<div key={id} style={{background:isCov?`linear-gradient(160deg,${G.b2},${G.b3})`:`${G.b2}`,border:`1px solid ${isCov?t.accent+"50":"rgba(255,255,255,.06)"}`,borderRadius:16,padding:"32px 24px",display:"flex",flexDirection:"column",position:"relative",overflow:"hidden",transition:"transform .3s"}}>
+{isCov&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:`linear-gradient(90deg,transparent,${t.accent},transparent)`}}/>}
+{t.badge&&<div style={{position:"absolute",top:14,right:14,...cinzel,fontSize:8,letterSpacing:3,color:t.accent,background:`${t.accent}18`,padding:"4px 10px",borderRadius:20}}>{t.badge}</div>}
 <div style={{fontSize:32,marginBottom:16}}>{t.icon}</div>
 <div style={{...cinzel,fontSize:11,letterSpacing:4,color:t.accent,marginBottom:6}}>{t.name.toUpperCase()}</div>
-<div style={{...playfair,fontSize:clamp(28,5,36),fontWeight:700,color:”#fff”,marginBottom:4}}>{t.price}</div>
+<div style={{...playfair,fontSize:clamp(28,5,36),fontWeight:700,color:"#fff",marginBottom:4}}>{t.price}</div>
 <div style={{fontSize:11,color:G.textDD,marginBottom:16,...cinzel,letterSpacing:2}}>{t.deliverable.toUpperCase()}</div>
 <p style={{fontSize:12,color:G.textD,lineHeight:1.7,marginBottom:20,minHeight:40}}>{t.tagline}</p>
 <Div style={{marginBottom:20}}/>
-<ul style={{listStyle:“none”,marginBottom:24,flex:1}}>
+<ul style={{listStyle:"none",marginBottom:24,flex:1}}>
 {t.features.map(f=>(
-<li key={f} style={{display:“flex”,gap:10,alignItems:“flex-start”,marginBottom:10}}>
+<li key={f} style={{display:"flex",gap:10,alignItems:"flex-start",marginBottom:10}}>
 <span style={{color:t.accent,fontSize:12,flexShrink:0,marginTop:1}}>✓</span>
 <span style={{fontSize:12,color:G.textD,lineHeight:1.5}}>{f}</span>
 </li>
 ))}
 </ul>
-<button onClick={()=>onSelect(id)} style={{width:“100%”,padding:“13px”,background:isCov?`linear-gradient(135deg,${t.accent},#b8902e)`:“transparent”,border:`1px solid ${t.accent}50`,borderRadius:8,...cinzel,fontSize:9,letterSpacing:3,color:isCov?”#0a0804”:t.accent,fontWeight:700,cursor:“pointer”}}>
+<button onClick={()=>onSelect(id)} style={{width:"100%",padding:"13px",background:isCov?`linear-gradient(135deg,${t.accent},#b8902e)`:"transparent",border:`1px solid ${t.accent}50`,borderRadius:8,...cinzel,fontSize:9,letterSpacing:3,color:isCov?"#0a0804":t.accent,fontWeight:700,cursor:"pointer"}}>
 {t.cta.toUpperCase()}
 </button>
 </div>
@@ -697,74 +714,91 @@ function clamp(min,vw,max){return`clamp(${min}px,${vw}vw,${max}px)`;}
 // Intake Modal
 function IntakeModal({tier,onClose,onGenerate}){
 const t=TIERS[tier];
-const [name,setName]=useState(””);
-const [dob,setDob]=useState(””);
-const [role,setRole]=useState(””);
-const [mission,setMission]=useState(””);
+const [name,setName]=useState("");
+const [dob,setDob]=useState("");
+const [role,setRole]=useState("");
+const [mission,setMission]=useState("");
+const [keyInput,setKeyInput]=useState(()=>localStorage.getItem("remnant_api_key")||"");
 const [foc,setFoc]=useState(null);
+
+let envKey="";
+try{envKey=import.meta?.env?.VITE_ANTHROPIC_API_KEY||"";}catch{}
+const showKeyField=!envKey;
+const effectiveKey=envKey||keyInput;
 
 const lp=dob?getLP(dob):null;
 const sign=dob?getSign(dob):null;
 const elem=sign?ELEM[sign]:null;
-const ready=name.trim().length>=2&&dob.length===10;
+const ready=name.trim().length>=2&&dob.length===10&&effectiveKey.length>20;
 
-const inp=(field,val,set,ph,type=“text”,rows=null)=>{
+const inp=(field,val,set,ph,type="text",rows=null)=>{
 const isTA=!!rows;
-const base={width:“100%”,background:foc===field?“rgba(212,175,55,.05)”:“rgba(255,255,255,.03)”,border:`1px solid ${foc===field?"rgba(212,175,55,.4)":"rgba(255,255,255,.08)"}`,borderRadius:8,padding:“14px 18px”,color:”#fff”,...playfair,fontSize:15,outline:“none”,transition:“all .3s”,boxSizing:“border-box”,resize:isTA?“vertical”:“none”};
+const base={width:"100%",background:foc===field?"rgba(212,175,55,.05)":"rgba(255,255,255,.03)",border:`1px solid ${foc===field?"rgba(212,175,55,.4)":"rgba(255,255,255,.08)"}`,borderRadius:8,padding:"14px 18px",color:"#fff",...playfair,fontSize:15,outline:"none",transition:"all .3s",boxSizing:"border-box",resize:isTA?"vertical":"none"};
 if(isTA) return<textarea value={val} placeholder={ph} onChange={e=>set(e.target.value)} onFocus={()=>setFoc(field)} onBlur={()=>setFoc(null)} rows={rows} style={base}/>;
-return<input type={type} value={val} placeholder={ph} onChange={e=>set(e.target.value)} onFocus={()=>setFoc(field)} onBlur={()=>setFoc(null)} style={{...base,colorScheme:type===“date”?“dark”:“light”}}/>;
+return<input type={type} value={val} placeholder={ph} onChange={e=>set(e.target.value)} onFocus={()=>setFoc(field)} onBlur={()=>setFoc(null)} style={{...base,colorScheme:type==="date"?"dark":"light"}}/>;
 };
 
 return(
-<div style={{position:“fixed”,inset:0,zIndex:200,display:“flex”,alignItems:“center”,justifyContent:“center”,padding:20,background:“rgba(0,0,0,.75)”,backdropFilter:“blur(8px)”}}>
-<div style={{background:G.b2,border:`1px solid ${t.accent}30`,borderRadius:20,width:“100%”,maxWidth:520,maxHeight:“90vh”,overflowY:“auto”,position:“relative”}}>
-<div style={{position:“sticky”,top:0,background:G.b2,padding:“24px 28px 0”,borderBottom:`1px solid rgba(255,255,255,.05)`,zIndex:1}}>
-<div style={{display:“flex”,justifyContent:“space-between”,alignItems:“center”,marginBottom:16}}>
-<div style={{display:“flex”,alignItems:“center”,gap:10}}>
+<div style={{position:"fixed",inset:0,zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",padding:20,background:"rgba(0,0,0,.75)",backdropFilter:"blur(8px)"}}>
+<div style={{background:G.b2,border:`1px solid ${t.accent}30`,borderRadius:20,width:"100%",maxWidth:520,maxHeight:"90vh",overflowY:"auto",position:"relative"}}>
+<div style={{position:"sticky",top:0,background:G.b2,padding:"24px 28px 0",borderBottom:`1px solid rgba(255,255,255,.05)`,zIndex:1}}>
+<div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
+<div style={{display:"flex",alignItems:"center",gap:10}}>
 <span style={{fontSize:24}}>{t.icon}</span>
 <div>
 <div style={{...cinzel,fontSize:9,letterSpacing:4,color:t.accent}}>{t.name.toUpperCase()} TIER</div>
-<div style={{...playfair,fontSize:15,fontWeight:700,color:”#fff”}}>{t.price} · {t.deliverable}</div>
+<div style={{...playfair,fontSize:15,fontWeight:700,color:"#fff"}}>{t.price} · {t.deliverable}</div>
 </div>
 </div>
-<button onClick={onClose} style={{background:“transparent”,border:“none”,color:G.textDD,fontSize:20,cursor:“pointer”,padding:4}}>✕</button>
+<button onClick={onClose} style={{background:"transparent",border:"none",color:G.textDD,fontSize:20,cursor:"pointer",padding:4}}>✕</button>
 </div>
 </div>
-<div style={{padding:“28px”}}>
-<div style={{display:“flex”,flexDirection:“column”,gap:16}}>
+<div style={{padding:"28px"}}>
+<div style={{display:"flex",flexDirection:"column",gap:16}}>
 <div>
-<div style={{...cinzel,fontSize:8,letterSpacing:3,color:G.textDD,marginBottom:8}}>FULL NAME <span style={{color:“rgba(212,175,55,.5)”}}>*</span></div>
-{inp(“name”,name,setName,“Enter your full name”)}
+<div style={{...cinzel,fontSize:8,letterSpacing:3,color:G.textDD,marginBottom:8}}>FULL NAME <span style={{color:"rgba(212,175,55,.5)"}}>*</span></div>
+{inp("name",name,setName,"Enter your full name")}
 </div>
 <div>
-<div style={{...cinzel,fontSize:8,letterSpacing:3,color:G.textDD,marginBottom:8}}>DATE OF BIRTH <span style={{color:“rgba(212,175,55,.5)”}}>*</span></div>
-{inp(“dob”,dob,setDob,””,“date”)}
+<div style={{...cinzel,fontSize:8,letterSpacing:3,color:G.textDD,marginBottom:8}}>DATE OF BIRTH <span style={{color:"rgba(212,175,55,.5)"}}>*</span></div>
+{inp("dob",dob,setDob,"","date")}
 </div>
 {dob&&(
-<div style={{display:“flex”,gap:10,flexWrap:“wrap”}}>
-{[[“Life Path”,lp,MASTER.includes(lp)?“Master”:null],[“Sun Sign”,sign,null],[“Element”,elem?`${EICO[elem]} ${elem}`:null,null]].map(([k,v,sub])=>v&&(
-<div key={k} style={{flex:“1 1 110px”,background:“rgba(212,175,55,.05)”,border:`1px solid ${G.goldP}`,borderRadius:8,padding:“10px 12px”,textAlign:“center”}}>
+<div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
+{[["Life Path",lp,MASTER.includes(lp)?"Master":null],["Sun Sign",sign,null],["Element",elem?`${EICO[elem]} ${elem}`:null,null]].map(([k,v,sub])=>v&&(
+<div key={k} style={{flex:"1 1 110px",background:"rgba(212,175,55,.05)",border:`1px solid ${G.goldP}`,borderRadius:8,padding:"10px 12px",textAlign:"center"}}>
 <div style={{...cinzel,fontSize:7,letterSpacing:2,color:G.goldD,marginBottom:4}}>{k}</div>
 <div style={{...playfair,fontSize:16,fontWeight:700,color:G.gold}}>{v}</div>
-{sub&&<div style={{fontSize:7,color:“rgba(212,175,55,.5)”,letterSpacing:1}}>{sub}</div>}
+{sub&&<div style={{fontSize:7,color:"rgba(212,175,55,.5)",letterSpacing:1}}>{sub}</div>}
 </div>
 ))}
 </div>
 )}
 <div>
 <div style={{...cinzel,fontSize:8,letterSpacing:3,color:G.textDD,marginBottom:8}}>PROFESSION OR ROLE <span style={{color:G.textDD}}>(optional)</span></div>
-{inp(“role”,role,setRole,“e.g. Nonprofit Director, Entrepreneur, Educator”)}
+{inp("role",role,setRole,"e.g. Nonprofit Director, Entrepreneur, Educator")}
 </div>
-{(tier===“builder”||tier===“legacy”)&&(
+{(tier==="builder"||tier==="legacy")&&(
 <div>
 <div style={{...cinzel,fontSize:8,letterSpacing:3,color:G.textDD,marginBottom:8}}>PERSONAL MISSION <span style={{color:G.textDD}}>(optional)</span></div>
-{inp(“mission”,mission,setMission,“Describe your mission in one sentence…”,null,3)}
+{inp("mission",mission,setMission,"Describe your mission in one sentence…",null,3)}
 </div>
 )}
-<button onClick={()=>ready&&onGenerate({name:name.trim(),dob,role,mission})} disabled={!ready} style={{padding:“16px”,background:ready?`linear-gradient(135deg,${t.accent},#b8902e)`:“rgba(255,255,255,.05)”,border:“none”,borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:ready?”#0a0804”:“rgba(255,255,255,.2)”,fontWeight:700,cursor:ready?“pointer”:“not-allowed”,marginTop:4}}>
+{showKeyField&&(
+<div>
+<div style={{...cinzel,fontSize:8,letterSpacing:3,color:G.textDD,marginBottom:8}}>ANTHROPIC API KEY <span style={{color:"rgba(212,175,55,.5)"}}>*</span></div>
+{inp("apiKey",keyInput,setKeyInput,"sk-ant-…","password")}
+<div style={{fontSize:11,color:G.textDD,marginTop:6}}>Get yours at <span style={{color:G.goldD}}>console.anthropic.com</span> · stored locally, never sent to us</div>
+</div>
+)}
+<button onClick={()=>{
+if(!ready)return;
+if(showKeyField&&keyInput)localStorage.setItem("remnant_api_key",keyInput);
+onGenerate({name:name.trim(),dob,role,mission,apiKey:effectiveKey});
+}} disabled={!ready} style={{padding:"16px",background:ready?`linear-gradient(135deg,${t.accent},#b8902e)`:"rgba(255,255,255,.05)",border:"none",borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:ready?"#0a0804":"rgba(255,255,255,.2)",fontWeight:700,cursor:ready?"pointer":"not-allowed",marginTop:4}}>
 GENERATE MY {tier.toUpperCase()} PROFILE
 </button>
-<div style={{textAlign:“center”,...cinzel,fontSize:8,letterSpacing:2,color:G.textDD}}>Your data is used only to generate your profile. We don’t store it.</div>
+<div style={{textAlign:"center",...cinzel,fontSize:8,letterSpacing:2,color:G.textDD}}>Your data is used only to generate your profile. We don't store it.</div>
 </div>
 </div>
 </div>
@@ -775,19 +809,19 @@ GENERATE MY {tier.toUpperCase()} PROFILE
 function LoadingScreen({tier,name}){
 const t=TIERS[tier];
 const [ph,setPh]=useState(0);
-const phases=[“Reading the celestial record…”,“Calculating your life path vibration…”,“Aligning your framework…”,“Decoding your digital calling…”,“Architecting your blueprint…”,“Rendering your legacy…”];
+const phases=["Reading the celestial record…","Calculating your life path vibration…","Aligning your framework…","Decoding your digital calling…","Architecting your blueprint…","Rendering your legacy…"];
 useEffect(()=>{const i=setInterval(()=>setPh(p=>(p+1)%phases.length),1800);return()=>clearInterval(i);},[]);
 return(
-<div style={{position:“fixed”,inset:0,zIndex:200,background:G.bg,display:“flex”,flexDirection:“column”,alignItems:“center”,justifyContent:“center”,textAlign:“center”,padding:32}}>
+<div style={{position:"fixed",inset:0,zIndex:200,background:G.bg,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textAlign:"center",padding:32}}>
 <StarBg/>
-<div style={{position:“relative”,zIndex:1}}>
+<div style={{position:"relative",zIndex:1}}>
 <div style={{fontSize:64,marginBottom:24}}>{t.icon}</div>
-<div style={{width:64,height:64,margin:“0 auto 32px”,border:“2px solid rgba(212,175,55,.15)”,borderTop:`2px solid ${t.accent}`,borderRadius:“50%”,animation:“spin 1.2s linear infinite”}}/>
-<div style={{...playfair,fontSize:“clamp(18px,3vw,26px)”,fontWeight:700,color:”#fff”,marginBottom:12}}>
-Decoding {name}’s Blueprint
+<div style={{width:64,height:64,margin:"0 auto 32px",border:"2px solid rgba(212,175,55,.15)",borderTop:`2px solid ${t.accent}`,borderRadius:"50%",animation:"spin 1.2s linear infinite"}}/>
+<div style={{...playfair,fontSize:"clamp(18px,3vw,26px)",fontWeight:700,color:"#fff",marginBottom:12}}>
+Decoding {name}'s Blueprint
 </div>
 <Pill accent={t.accent}>{t.name.toUpperCase()} TIER · {t.deliverable}</Pill>
-<div style={{marginTop:24,...cinzel,fontSize:10,letterSpacing:3,color:G.goldD,animation:“pulse 1.8s ease-in-out infinite”}}>{phases[ph]}</div>
+<div style={{marginTop:24,...cinzel,fontSize:10,letterSpacing:3,color:G.goldD,animation:"pulse 1.8s ease-in-out infinite"}}>{phases[ph]}</div>
 <style>{`@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}`}</style>
 </div>
 </div>
@@ -796,41 +830,41 @@ Decoding {name}’s Blueprint
 
 function PreviewScreen({tier,html,name,onReset,onDownload}){
 const t=TIERS[tier];
-const [tab,setTab]=useState(“preview”);
+const [tab,setTab]=useState("preview");
 return(
-<div style={{position:“fixed”,inset:0,zIndex:200,background:G.bg,display:“flex”,flexDirection:“column”}}>
+<div style={{position:"fixed",inset:0,zIndex:200,background:G.bg,display:"flex",flexDirection:"column"}}>
 {/* Top bar */}
-<div style={{height:56,padding:“0 24px”,display:“flex”,alignItems:“center”,justifyContent:“space-between”,background:G.b2,borderBottom:“1px solid rgba(255,255,255,.06)”,flexShrink:0}}>
-<div style={{display:“flex”,alignItems:“center”,gap:12}}>
+<div style={{height:56,padding:"0 24px",display:"flex",alignItems:"center",justifyContent:"space-between",background:G.b2,borderBottom:"1px solid rgba(255,255,255,.06)",flexShrink:0}}>
+<div style={{display:"flex",alignItems:"center",gap:12}}>
 <span style={{fontSize:18}}>{t.icon}</span>
 <div style={{...cinzel,fontSize:9,letterSpacing:3,color:G.textD}}>{name.toUpperCase()} · {t.name.toUpperCase()} TIER</div>
 </div>
-<div style={{display:“flex”,gap:10}}>
-{[“preview”,“code”].map(tb=>(
-<button key={tb} onClick={()=>setTab(tb)} style={{padding:“6px 16px”,background:tab===tb?“rgba(212,175,55,.12)”:“transparent”,border:`1px solid ${tab===tb?G.goldP:"rgba(255,255,255,.06)"}`,borderRadius:6,...cinzel,fontSize:8,letterSpacing:3,color:tab===tb?G.gold:G.textDD,cursor:“pointer”}}>
+<div style={{display:"flex",gap:10}}>
+{["preview","code"].map(tb=>(
+<button key={tb} onClick={()=>setTab(tb)} style={{padding:"6px 16px",background:tab===tb?"rgba(212,175,55,.12)":"transparent",border:`1px solid ${tab===tb?G.goldP:"rgba(255,255,255,.06)"}`,borderRadius:6,...cinzel,fontSize:8,letterSpacing:3,color:tab===tb?G.gold:G.textDD,cursor:"pointer"}}>
 {tb.toUpperCase()}
 </button>
 ))}
-<button onClick={onDownload} style={{padding:“6px 18px”,background:`linear-gradient(135deg,${t.accent},#b8902e)`,border:“none”,borderRadius:6,...cinzel,fontSize:8,letterSpacing:3,color:”#0a0804”,fontWeight:700,cursor:“pointer”}}>
+<button onClick={onDownload} style={{padding:"6px 18px",background:`linear-gradient(135deg,${t.accent},#b8902e)`,border:"none",borderRadius:6,...cinzel,fontSize:8,letterSpacing:3,color:"#0a0804",fontWeight:700,cursor:"pointer"}}>
 ⬇ DOWNLOAD HTML
 </button>
-<button onClick={onReset} style={{padding:“6px 16px”,background:“transparent”,border:“1px solid rgba(255,255,255,.08)”,borderRadius:6,...cinzel,fontSize:8,letterSpacing:3,color:G.textDD,cursor:“pointer”}}>
+<button onClick={onReset} style={{padding:"6px 16px",background:"transparent",border:"1px solid rgba(255,255,255,.08)",borderRadius:6,...cinzel,fontSize:8,letterSpacing:3,color:G.textDD,cursor:"pointer"}}>
 ✕ CLOSE
 </button>
 </div>
 </div>
 {/* Content */}
-<div style={{flex:1,overflow:“hidden”,position:“relative”}}>
-{tab===“preview”?(
-<iframe srcDoc={html} title=“Profile Preview” style={{width:“100%”,height:“100%”,border:“none”,background:”#07060a”}} sandbox=“allow-same-origin”/>
+<div style={{flex:1,overflow:"hidden",position:"relative"}}>
+{tab==="preview"?(
+<iframe srcDoc={html} title="Profile Preview" style={{width:"100%",height:"100%",border:"none",background:"#07060a"}} sandbox="allow-same-origin"/>
 ):(
-<textarea readOnly value={html} style={{width:“100%”,height:“100%”,background:”#0a0804”,color:“rgba(255,255,255,.7)”,border:“none”,padding:24,fontFamily:“monospace”,fontSize:12,lineHeight:1.5,resize:“none”,outline:“none”}}/>
+<textarea readOnly value={html} style={{width:"100%",height:"100%",background:"#0a0804",color:"rgba(255,255,255,.7)",border:"none",padding:24,fontFamily:"monospace",fontSize:12,lineHeight:1.5,resize:"none",outline:"none"}}/>
 )}
 </div>
 {/* Bottom bar */}
-<div style={{padding:“12px 24px”,background:G.b2,borderTop:“1px solid rgba(255,255,255,.04)”,display:“flex”,alignItems:“center”,justifyContent:“space-between”,flexShrink:0}}>
+<div style={{padding:"12px 24px",background:G.b2,borderTop:"1px solid rgba(255,255,255,.04)",display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0}}>
 <div style={{...cinzel,fontSize:8,letterSpacing:3,color:G.textDD}}>Your HTML profile is ready. Download, host, or share.</div>
-<div style={{...cinzel,fontSize:8,letterSpacing:3,color:“rgba(212,175,55,.35)”}}>PURPOSEFUL CULTIVATIONS · ISAIAH 58:12</div>
+<div style={{...cinzel,fontSize:8,letterSpacing:3,color:"rgba(212,175,55,.35)"}}>PURPOSEFUL CULTIVATIONS · ISAIAH 58:12</div>
 </div>
 </div>
 );
@@ -838,11 +872,11 @@ return(
 
 function Footer(){
 return(
-<div style={{background:G.b2,borderTop:`1px solid rgba(255,255,255,.04)`,padding:“56px 32px”,textAlign:“center”}}>
+<div style={{background:G.b2,borderTop:`1px solid rgba(255,255,255,.04)`,padding:"56px 32px",textAlign:"center"}}>
 <div style={{...cinzel,fontSize:14,fontWeight:700,color:G.gold,marginBottom:8}}>33</div>
 <div style={{...cinzel,fontSize:10,letterSpacing:5,color:G.textDD,marginBottom:16}}>PURPOSEFUL CULTIVATIONS</div>
-<Div style={{maxWidth:200,margin:“0 auto 16px”}}/>
-<p style={{...playfair,fontSize:14,fontStyle:“italic”,color:G.goldD,marginBottom:8}}>“If it’s in His will, it’s in my way — because my way is His will.”</p>
+<Div style={{maxWidth:200,margin:"0 auto 16px"}}/>
+<p style={{...playfair,fontSize:14,fontStyle:"italic",color:G.goldD,marginBottom:8}}>"If it's in His will, it's in my way — because my way is His will."</p>
 <div style={{...cinzel,fontSize:8,letterSpacing:4,color:G.textDD}}>ISAIAH 58:12 · MASTER 33 · {new Date().getFullYear()}</div>
 </div>
 );
@@ -850,27 +884,27 @@ return(
 
 // ── MAIN APP ───────────────────────────────────────────────────────────────────
 export default function RemnantPlatform(){
-const [view,setView]=useState(“landing”); // landing|intake|generating|preview
+const [view,setView]=useState("landing"); // landing|intake|generating|preview
 const [tier,setTier]=useState(null);
 const [form,setForm]=useState(null);
-const [html,setHtml]=useState(””);
-const [err,setErr]=useState(””);
+const [html,setHtml]=useState("");
+const [err,setErr]=useState("");
 
 async function handleGenerate(formData){
-setForm(formData);setView(“generating”);setErr(””);
+setForm(formData);setView("generating");setErr("");
 try{
-const {name,dob,role,mission}=formData;
+const {name,dob,role,mission,apiKey}=formData;
 const lp=getLP(dob);const sign=getSign(dob);const elem=ELEM[sign];
-const data=await fetchBlueprint(tier,name,dob,role,mission,lp,sign,elem);
+const data=await fetchBlueprint(tier,name,dob,role,mission,lp,sign,elem,apiKey);
 const h=makeHTML(tier,data,name,dob,role,lp,sign,elem);
-setHtml(h);setView(“preview”);
-}catch(e){setErr(“Generation encountered an error. Please try again.”);setView(“intake”);}
+setHtml(h);setView("preview");
+}catch(e){setErr(e.message||"Generation encountered an error. Please try again.");setView("intake");}
 }
 
-function reset(){setView(“landing”);setTier(null);setForm(null);setHtml(””);setErr(””);}
+function reset(){setView("landing");setTier(null);setForm(null);setHtml("");setErr("");}
 
 return(
-<div style={{minHeight:“100vh”,background:G.bg,fontFamily:”‘Lato’,sans-serif”}}>
+<div style={{minHeight:"100vh",background:G.bg,fontFamily:"'Lato',sans-serif"}}>
 <style>{`${FONTS}*{box-sizing:border-box}input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.5);cursor:pointer}input::placeholder,textarea::placeholder{color:rgba(255,255,255,.22)}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(212,175,55,.2);border-radius:2px}`}</style>
 
   {/* Fixed Nav */}
