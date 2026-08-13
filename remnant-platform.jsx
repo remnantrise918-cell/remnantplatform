@@ -74,17 +74,30 @@ builder:`{"archetype":"2-4 word divine archetype","archetypeSymbol":"single emoj
 legacy:`{"archetype":"2-4 word divine archetype","archetypeSymbol":"single emoji","headline":"bold 10-16 word declaration","tagline":"6-10 word personal motto","coreGift":"one sentence","originStatement":"3 sentences — deep origin, ancestral thread, what they carry","purposeStatement":"2-3 sentences","visionDeclaration":"2-3 sentences — the future they are building","storyArc":{"origin":"2 sentences","turning":"2 sentences","now":"2 sentences"},"legacyPillars":[{"title":"pillar name","description":"2 sentences"},{"title":"pillar name","description":"2 sentences"},{"title":"pillar name","description":"2 sentences"}],"gifts":["gift 1","gift 2","gift 3","gift 4"],"framework":"ONE primary framework","frameworkReason":"2 sentences","manifesto":"3-4 sentence brand voice manifesto — their non-negotiables, creed","digitalPlatform":"best platform","contentPillar":"5-7 word content theme","voiceTone":"3 adjectives","roadmap":["action 1","action 2","action 3","action 4"],"firstStatement":"3-4 sentence ready-to-publish opening","lifepathMeaning":"2 sentences","signMeaning":"2 sentences","blessing":"2-3 sentence prophetic send-off, deeply personal"}`
 };
 
-async function fetchBlueprint(tier, name, dob, role, mission, lp, sign, elem) {
+function getApiKey(){
+  try{const k=import.meta?.env?.VITE_ANTHROPIC_API_KEY;if(k)return k;}catch{}
+  return localStorage.getItem("remnant_api_key")||"";
+}
+
+async function fetchBlueprint(tier, name, dob, role, mission, lp, sign, elem, apiKey) {
+  const key=apiKey||getApiKey();
   const isMaster = MASTER.includes(lp);
   const msg = `Name: ${name}\nBirthdate: ${dob}\nLife Path: ${lp}${isMaster?" (Master Number)":""}\nSun Sign: ${sign} ${SSYM[sign]||""}\nElement: ${elem}${role?`\nRole: ${role}`:""}${mission?`\nMission: "${mission}"`:""}`;
   const res = await fetch("https://api.anthropic.com/v1/messages",{
-    method:"POST",headers:{"Content-Type":"application/json"},
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "x-api-key":key,
+      "anthropic-version":"2023-06-01",
+      "anthropic-dangerous-direct-browser-access":"true",
+    },
     body:JSON.stringify({
-      model:"claude-sonnet-4-20250514",max_tokens:1000,
+      model:"claude-sonnet-4-20250514",max_tokens:2000,
       system:`${SYS_BASE}\n\nSchema for ${tier.toUpperCase()} tier:\n${SCHEMAS[tier]}`,
       messages:[{role:"user",content:msg}]
     })
   });
+  if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`API error ${res.status}`);}
   const data = await res.json();
   const raw = data.content?.map(b=>b.text||"").join("").trim();
   return JSON.parse(raw.replace(/```json|```/g,"").trim());
@@ -692,12 +705,18 @@ function IntakeModal({tier,onClose,onGenerate}){
   const [dob,setDob]=useState("");
   const [role,setRole]=useState("");
   const [mission,setMission]=useState("");
+  const [keyInput,setKeyInput]=useState(()=>localStorage.getItem("remnant_api_key")||"");
   const [foc,setFoc]=useState(null);
+
+  let envKey="";
+  try{envKey=import.meta?.env?.VITE_ANTHROPIC_API_KEY||"";}catch{}
+  const showKeyField=!envKey;
+  const effectiveKey=envKey||keyInput;
 
   const lp=dob?getLP(dob):null;
   const sign=dob?getSign(dob):null;
   const elem=sign?ELEM[sign]:null;
-  const ready=name.trim().length>=2&&dob.length===10;
+  const ready=name.trim().length>=2&&dob.length===10&&effectiveKey.length>20;
 
   const inp=(field,val,set,ph,type="text",rows=null)=>{
     const isTA=!!rows;
@@ -752,7 +771,18 @@ function IntakeModal({tier,onClose,onGenerate}){
                 {inp("mission",mission,setMission,"Describe your mission in one sentence...",null,3)}
               </div>
             )}
-            <button onClick={()=>ready&&onGenerate({name:name.trim(),dob,role,mission})} disabled={!ready} style={{padding:"16px",background:ready?`linear-gradient(135deg,${t.accent},#b8902e)`:"rgba(255,255,255,.05)",border:"none",borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:ready?"#0a0804":"rgba(255,255,255,.2)",fontWeight:700,cursor:ready?"pointer":"not-allowed",marginTop:4}}>
+            {showKeyField&&(
+              <div>
+                <div style={{...cinzel,fontSize:8,letterSpacing:3,color:G.textDD,marginBottom:8}}>ANTHROPIC API KEY <span style={{color:"rgba(212,175,55,.5)"}}>*</span></div>
+                {inp("apiKey",keyInput,setKeyInput,"sk-ant-...","password")}
+                <div style={{fontSize:11,color:G.textDD,marginTop:6}}>Get yours at <span style={{color:G.goldD}}>console.anthropic.com</span> · stored locally, never sent to us</div>
+              </div>
+            )}
+            <button onClick={()=>{
+              if(!ready)return;
+              if(showKeyField&&keyInput)localStorage.setItem("remnant_api_key",keyInput);
+              onGenerate({name:name.trim(),dob,role,mission,apiKey:effectiveKey});
+            }} disabled={!ready} style={{padding:"16px",background:ready?`linear-gradient(135deg,${t.accent},#b8902e)`:"rgba(255,255,255,.05)",border:"none",borderRadius:8,...cinzel,fontSize:10,letterSpacing:3,color:ready?"#0a0804":"rgba(255,255,255,.2)",fontWeight:700,cursor:ready?"pointer":"not-allowed",marginTop:4}}>
               GENERATE MY {tier.toUpperCase()} PROFILE
             </button>
             <div style={{textAlign:"center",...cinzel,fontSize:8,letterSpacing:2,color:G.textDD}}>Your data is used only to generate your profile. We don't store it.</div>
@@ -850,12 +880,12 @@ export default function RemnantPlatform(){
   async function handleGenerate(formData){
     setForm(formData);setView("generating");setErr("");
     try{
-      const {name,dob,role,mission}=formData;
+      const {name,dob,role,mission,apiKey}=formData;
       const lp=getLP(dob);const sign=getSign(dob);const elem=ELEM[sign];
-      const data=await fetchBlueprint(tier,name,dob,role,mission,lp,sign,elem);
+      const data=await fetchBlueprint(tier,name,dob,role,mission,lp,sign,elem,apiKey);
       const h=makeHTML(tier,data,name,dob,role,lp,sign,elem);
       setHtml(h);setView("preview");
-    }catch(e){setErr("Generation encountered an error. Please try again.");setView("intake");}
+    }catch(e){setErr(e.message||"Generation encountered an error. Please try again.");setView("intake");}
   }
 
   function reset(){setView("landing");setTier(null);setForm(null);setHtml("");setErr("");}
